@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+ {% load socialaccount %}
+ {% load static %}
+{% block title %}Sign Up{% endblock %}
+
+
+
+{% block content %}
+    <div class="flex justify-center  items-center h-screen ">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-4">Login Page</h1>
+            <form method="post" action="">
+                {% csrf_token %}
+                    
+                {% if form.errors %}
+                    <div class="mb-4 text-white-500 bg-orange-400 w-[600px]">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" name="username" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-800 rounded h-[40px] w-[200px] focus:ring-green-900">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-800 rounded h-[40px] w-[200px] focus:ring-green-900">
+                </div>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 w-full hover:cursor-pointair mb-4" >Login</button>
+               
+             <a href="{% provider_login_url 'google' %}" class="hover:cursor-pointer">
+                  <button type="button" class="flex items-center justify-center gap-3 px-5 py-2 w-full border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 transition duration-200 hover:cursor-pointair focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" class="w-5 h-5">
+                      <span class="text-sm font-medium text-gray-700 font-sans">
+                          Sign in with Google
+                      </span>
+                  </button>
+            </a>
+
+        <a href="{% provider_login_url 'github' %}" class="hover:cursor-pointair m-2">
+          <button type="button" class="flex items-center gap-3 px-5 w-full py-2 border rounded shadow-sm bg-gray-900 text-white hover:bg-gray-800">
+   
+    <img src="{% static 'image/download.png' %}" alt="GitHub" class="w-5 h-5">
+    <span>Sign up with GitHub</span>
+  </button>
+</a>
+            </form>
+
+
+     <div class="text-center " > 
+            <p class="text-sm text-gray-600">Don't have an account? <a href="{% url 'account' %}" class="text-blue-500 hover:underline">Sign Up</a></p>
+        </div>
+</div>
+       
+       
+    </div>
+
+{% endblock %}

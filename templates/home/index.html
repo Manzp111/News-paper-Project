@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block content%}
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in authors %}
+        <tr>
+           
+        <td>{{item.name}}</td>
+        <td>{{item.email}}</td>
+       </tr>
+
+
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock%}
