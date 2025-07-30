@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="relative  w-[100vw] h-[100vh] ">
+
+
+    <div class="relative shadow-sm/30 p-4 text-black-600 left-32 flex gap-[85%] " id="header">
+        <button onclick="toggleSidebar()"><i class="fa-sharp fa-solid fa-bars relative left-0"></i></button>
+        <div class="flex items-center justify-between">
+            <a href=""><i class="fa-sharp fa-solid fa-bell "></i></a>
+        </div>
+       
+
+    </div>
+<div class="fixed top-0 left-0 w-32 h-screen shadow-sm/80 ">    
+    <div class="">
+        <img src="{% static 'image/undraw_online-community_3o0l.png' %}" alt="Logo" class="w-4 h-32 object-cover rounded-full mx-auto mt-4">
+        <h4 class="text-[midnightblue]">name</h4>
+    </div> 
+    <div class="flex flex-col gap-4 mt-4 ">
+        <ul class="flex flex-col gap-2 text-[midnightblue] font-bold ">
+            <li class="p-2 hover:bg-gray-200"><a href="#" class="">Dashboard</a></li>
+            <li class="p-2 hover:bg-gray-200"><a href="{% url 'story_list' %}">Manage Story</a></li>
+            <li class="p-2 hover:bg-gray-200"><a href="#">Visitors Story</a></li>
+            <li class="p-2 hover:bg-gray-200"><a href="#">Message</a></li>
+            <li class="p-2 hover:bg-gray-200"><a href="#">Comment</a></li>
+            <li class="p-2 hover:bg-gray-200"><a href="#">Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="ml-32 p-4" id="main-content">
+        {% block title %}{% endblock %}
+        {% block content %}
+        
+        {% endblock %}
+    </div>
+    
+    
+
+    </div>
+
+
+    <script>
+function toggleSidebar() {
+    const sidebar = document.querySelector('.fixed');
+    const header = document.getElementById('header');
+    const mainContent = document.getElementById('main-content');
+    mainContent.classList.toggle('ml-32');
+    sidebar.classList.toggle('hidden');
+    sidebar.classList.toggle('block');
+    header.classList.toggle('left-32');
+}
+    </script>
+    
+    
+</body>
+</html>

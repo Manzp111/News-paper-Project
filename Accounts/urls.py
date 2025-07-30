@@ -1,5 +1,5 @@
 from django.urls import path
-from Accounts.views import create_account,user_login,custom_logout_view,user_profile
+from Accounts.views import create_account,user_login,custom_logout_view,user_profile,admin_dashbord
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -9,6 +9,8 @@ urlpatterns = [
     path('login/',user_login,name='login'),
     path('logout/',custom_logout_view,name='logout'),
     path('profile/', user_profile, name='profile'),
+    path('admin_dashbord/', admin_dashbord, name='admin_dashbord'),
+
 
 ]
 if settings.DEBUG:

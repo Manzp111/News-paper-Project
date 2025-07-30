@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'supervisor/index.html' %}
 
 {% block content%}
 
@@ -35,19 +35,27 @@
 
   </div>
   <div class="mb-5">
-    <label for="title" class="block mb-2 text-sm font-medium text-black-500 dark:text-black ">Title</label>
-    <input type="text" id="title" name="title" class="shadow-xs bg-gray-50 border border-gray-300 text-black-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" required />
+    <label for="title" class="block mb-2 text-sm font-medium text-gray-700">Title</label>
+    <input type="text" id="title" name="title" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
   </div>
-  <!-- <div class="mb-5">
-    <label for="date" class="block mb-2 text-sm font-medium text-black-500 dark:text-black ">Date</label>
-    <input type="date" id="date" name="publication_date" class="shadow-xs bg-gray-50 border border-gray-300 text-black-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" required />
-  </div> -->
-  <div class="block">
-    
-  <label for="content" class="block mb-2 text-sm font-medium text-blue-500 dark:text-black ">Content</label>
-  <textarea id="content" name="content" rows="10" cols="50" class="block p-2.5 w-full text-sm text-black-500 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="write content..."></textarea>
-   
-</div>
+  
+  <div class="mb-5">
+    <label for="category" class="block mb-2 text-sm font-medium text-gray-700">Category</label>
+    <select id="category" name="category" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+      <option value="general">General</option>
+      <option value="sports">Sports</option>
+      <option value="entertainment">Entertainment</option>
+      <option value="politics">Politics</option>
+      <option value="technology">Technology</option>
+      <option value="health">Health</option>
+      <option value="business">Business</option>
+    </select>
+  </div>
+  
+  <div class="mb-5">
+    <label for="content" class="block mb-2 text-sm font-medium text-gray-700">Content</label>
+    <textarea id="content" name="content" rows="10" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your story content here..."></textarea>
+  </div>
 <div class="flex justify-center items-center text-center w-full h-10 bg-blue-900 m-3 rounded" >
     <button class="" type="submit" class="w-full bg-blue-500 ">Add Story</button>
 </div>

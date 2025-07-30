@@ -38,13 +38,17 @@ def user_login(request):
 def custom_logout_view(request):
     logout(request)
     messages.info(request, "You have been logged out due to inactivity.")
-    return redirect('login') 
+    return redirect('post') 
 
 @login_required
 def user_profile(request):
     if user.is_authenticated:
         user= request.user
         return render(request, 'Users/profile.html', {'user': user})
+    
+def admin_dashbord(request):
+    return render(request, 'admin_dashbord/admin.html')
+
    
 
 

@@ -29,6 +29,10 @@ from Accounts.models import CustomUser
 def base(request):
     return render(request,'base.html')
 
+
+def supervisor_dashboard(request):
+    return render(request,'supervisor/index.html')
+
 @login_required
 def home(request):
     # author=Author.objects.all()
@@ -36,8 +40,8 @@ def home(request):
     # return render(request,'home/index.html',{'authors':author})
 
 def post(request):
-    post=Post.objects.all()
-    return render(request,'home/post.html',{'posts':post})
+    posts = Post.objects.filter(is_published=True).order_by('-publication_date')
+    return render(request,'home/post.html',{'posts':posts})
 
 @login_required
 @AuthorRequired()
@@ -57,6 +61,7 @@ def add_new(request):
 
             
  
+ 
 @login_required
 @AuthorRequired()
 
@@ -69,7 +74,7 @@ def edit_story(request,post_id):
             return redirect('post')
     else:
         form=PostForm(instance=post)
-    return render(request,'home/edit_post.html',{'form':form})
+    return render(request,'supervisor/edit_post.html',{'form':form})
 
 
 @SupervisorRequired()
@@ -78,15 +83,54 @@ def delete_story(request,post_id):
     if request.method == "POST":
         post.delete()
         return redirect('post')
-    return render(request, 'home/delete_post.html', {'post': post})
+    return render(request, 'supervisor/delete_post.html', {'post': post})
 
 
 @login_required()
 @SupervisorRequired()
 def story_list(request):
     posts = Post.objects.all()
-    return render(request, 'home/listPost.html', {'posts': posts})
+    return render(request, 'supervisor/listPost.html', {'posts': posts})
 
+
+def story_detail(request, post_id):
+    try:
+        post=Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return HttpResponse("Post not found", status=404)
+    return render(request, 'home/story_detail.html', {'post': post})
+
+
+
+def sports_news(request):
+    posts = Post.objects.filter(category='sports', is_published=True).order_by('-publication_date')
+    return render(request, 'home/category_posts.html', {'posts': posts, 'category': 'Sports'})
+
+def entertainment_news(request):
+    posts = Post.objects.filter(category='entertainment', is_published=True).order_by('-publication_date')
+    return render(request, 'home/category_posts.html', {'posts': posts, 'category': 'Entertainment'})
+
+def politics_news(request):
+    posts = Post.objects.filter(category='politics', is_published=True).order_by('-publication_date')
+    return render(request, 'home/category_posts.html', {'posts': posts, 'category': 'Politics'})
+
+def technology_news(request):
+    posts = Post.objects.filter(category='technology', is_published=True).order_by('-publication_date')
+    return render(request, 'home/category_posts.html', {'posts': posts, 'category': 'Technology'})
+
+def health_news(request):
+    posts = Post.objects.filter(category='health', is_published=True).order_by('-publication_date')
+    return render(request, 'home/category_posts.html', {'posts': posts, 'category': 'Health'})
+
+def business_news(request):
+    posts = Post.objects.filter(category='business', is_published=True).order_by('-publication_date')
+    return render(request, 'home/category_posts.html', {'posts': posts, 'category': 'Business'})
+
+
+
+
+    # post=get_object_or_404(Post,id=post_id)
+    # return render(request,'home/story_detail.html',{'post':post})
 
 # def index(request):
 #     request.session.set_test_cookie()
