@@ -13,12 +13,12 @@ class CustomUser(AbstractUser):
     address = models.CharField(max_length=255, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     role = models.CharField(max_length=20, choices=user_roles, default='subscriber')
-    proile_pic= models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+   
 
 
 
     def __str__(self):
-        return f"{self.username} - {self.role} - {self.email} {self.profile_picture}"
+        return self.username
     
     class Meta:
         ordering = ['role']

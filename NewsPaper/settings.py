@@ -38,6 +38,7 @@ SITE_ID = 1
 
 INSTALLED_APPS = [
 
+     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Blog',
     'Accounts',
+    'ckeditor',
+    'ckeditor_uploader',
     'django.contrib.sites',  
     'allauth',
     'allauth.account',
@@ -91,8 +94,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'NewsPaper.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -102,8 +104,7 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -121,8 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -132,41 +131,31 @@ USE_I18N = True
 
 USE_TZ = True
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR, 'static']
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_SAVE_EVERY_REQUEST = True
 
 AUTH_USER_MODEL = 'Accounts.CustomUser'
 
-# SOCIALACCOUNT_PROVIDERS = {
-#   'google': {
-#       'APP':{
-#           'client_id': env('AUTH_GOOGLE_CLIENT_ID'),
-#           'secret': env('AUTH_GOOGLE_SECRET'),
-#       },
-
-#   },
-# }
 LOGIN_REDIRECT_URL='/'
 # LOGOUT_REDIRECT_URL='login'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 #caches
-SESSION_ENGINE= 'django.contrib.sessions.backends.cache'
+# SESSION_ENGINE= 'django.contrib.sessions.backends.cache'
 
 
-SESSION_COOKIE_AGE = 3600 
+# SESSION_COOKIE_AGE = 3600 
 
 CACHES = {
 
@@ -179,6 +168,60 @@ CACHES = {
 
     }
 
+}
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Kigali Trends",
+    "site_header": "kigali",
+    "site_brand": "Kigali Trends",
+    "welcome_sign": "Welcome to Kigali Trends Admin",
+    "site_logo": "image/undraw_online-community_3o0l.png",
+    "copyright": "Engneer Gilbert",
+     "custom_css": "css/custom.css",
+
+
+     "topmenu_links": [
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        { "app": "Blog"},
+        {'app':"Accounts"},
+        {"name": "Twitter", "url": "https://x.com/home?lang=en", "new_window": True},
+        
+
+     ],
+
+    "usermenu_links": [
+        {"model": "auth.user"},
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+    ],
+
+        "apps_icons": {
+        "blog":  "fas fa-cog",
+    },
+
+      "show_ui_builder": True,
+    #   "show_sidebar": False,
+      "navigation_expanded": True,
+       "changeform_format": "verticalal_tabs",
+
+    "custom_links": {
+        "blog": [{
+            "name": "Make Messages", 
+            "url": "make_messages", 
+            "icon": "fas fa-comments",
+            "permissions": ["books.view_book"]
+        }]
+    },
 }
 
 

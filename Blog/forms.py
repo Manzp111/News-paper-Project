@@ -1,10 +1,12 @@
 from django import forms
-from Blog.models import Post,Contact,VisitorPost,VisitorPost
+from Blog.models import Post,Contact,VisitorPost,VisitorPost,Comment,Like
 from django.contrib.auth.models import User
+
 import datetime
 
 
 class PostForm(forms.ModelForm):
+   
     class Meta:
         model=Post
         fields=['title','content','category']
@@ -55,7 +57,13 @@ class ContactForm(forms.ModelForm):
         if not first_name or not last_name or not email or not comment:
             raise forms.ValidationError("All fields are required.")
         if len(comment) < 10:
-            raise forms.ValidationError("Comment must be at least 10 characters long.")   
+            raise forms.ValidationError("Comment must be at least 10 characters long.") 
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields ='__all__'
+ 
 
 class VisitorPostForm(forms.ModelForm):
     class Meta:
@@ -86,34 +94,15 @@ class VisitorPostForm(forms.ModelForm):
             return post
         return None 
     
-class VisitorPostForm(forms.ModelForm):
+
+
+
+    
+class LikeForm(forms.ModelForm):
     class Meta:
-        model = VisitorPost
-        fields = ['title', 'content']
+        modeL=Like
+        fields=['']
 
-    def clean(self):
-        super().clean()
-        title = self.cleaned_data.get('title')
-        content = self.cleaned_data.get('content')
-        if not title or not content:
-            raise forms.ValidationError("Title and content cannot be empty.")
-        if len(title) < 5:
-            raise forms.ValidationError("Title must be at least 5 characters long.")
-        if len(content) < 20:
-            raise forms.ValidationError("Content must be at least 20 characters long.")
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super().__init__(*args, **kwargs)
-
-    def save(self, commit=True):
-        post = super().save(commit=False)
-        if self.request and self.request.user.is_authenticated:
-            post.author = self.request.user
-            if commit:
-                post.save()
-            return post
-        return None
     
 
     
@@ -123,12 +112,7 @@ class VisitorPostForm(forms.ModelForm):
 
 
         
-# def add_product(request):
-#     property=property.pbjects.all()
-#     if request.method=='POST':
-#         property=PostForm(request.POST)   {% csrf_token %}
-#         if property.is_valid():
-#             property.save()
+
 
 
 

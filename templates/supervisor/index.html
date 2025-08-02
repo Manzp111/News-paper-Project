@@ -1,70 +1,154 @@
-{% load static %}
+{% load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Supervisor Dashboard - Content Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 
-</head>
-<body>
-    <div class="relative  w-[100vw] h-[100vh] ">
 
-
-    <div class="relative shadow-sm/30 p-4 text-black-600 left-32 flex gap-[85%] " id="header">
-        <button onclick="toggleSidebar()"><i class="fa-sharp fa-solid fa-bars relative left-0"></i></button>
-        <div class="flex items-center justify-between">
-            <a href=""><i class="fa-sharp fa-solid fa-bell "></i></a>
-        </div>
-       
-
-    </div>
-<div class="fixed top-0 left-0 w-32 h-screen shadow-sm/80 ">    
-    <div class="">
-        <img src="{% static 'image/undraw_online-community_3o0l.png' %}" alt="Logo" class="w-4 h-32 object-cover rounded-full mx-auto mt-4">
-        <h4 class="text-[midnightblue]">name</h4>
-    </div> 
-    <div class="flex flex-col gap-4 mt-4 ">
-        <ul class="flex flex-col gap-2 text-[midnightblue] font-bold ">
-            <li class="p-2 hover:bg-gray-200"><a href="#" class="">Dashboard</a></li>
-            <li class="p-2 hover:bg-gray-200"><a href="{% url 'story_list' %}">Manage Story</a></li>
-            <li class="p-2 hover:bg-gray-200"><a href="#">Visitors Story</a></li>
-            <li class="p-2 hover:bg-gray-200"><a href="#">Message</a></li>
-            <li class="p-2 hover:bg-gray-200"><a href="#">Comment</a></li>
-            <li class="p-2 hover:bg-gray-200"><a href="#">Logout</a></li>
-        </ul>
-    </div>
-</div>
-
-    <div class="ml-32 p-4" id="main-content">
-        {% block title %}{% endblock %}
-        {% block content %}
-        
-        {% endblock %}
-    </div>
     
-    
-
-    </div>
-
-
     <script>
-function toggleSidebar() {
-    const sidebar = document.querySelector('.fixed');
-    const header = document.getElementById('header');
-    const mainContent = document.getElementById('main-content');
-    mainContent.classList.toggle('ml-32');
-    sidebar.classList.toggle('hidden');
-    sidebar.classList.toggle('block');
-    header.classList.toggle('left-32');
-}
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#1e40af',
+                        'secondary': '#7c3aed',
+                        'success': '#059669',
+                        'warning': '#d97706',
+                        'danger': '#dc2626',
+                    }
+                }
+            }
+        }
     </script>
+</head>
+<body class="bg-gray-50 font-inter overflow-x-hidden">
+    <!-- Mobile Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
     
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 border-r border-gray-200">
+        <!-- Logo Section -->
+
+        <!-- User Profile -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-gradient-to-r from-emerald-400 to-blue-500 rounded-full flex items-center justify-center">
+            {% if request.user.profile_picture %}
+                <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture" class="w-10 h-10 rounded-full object-cover">
+            {% else %}
+                <span class="text-white capitalize">{{request.user.username|slice:":1"}}</span> <!-- Placeholder for user initials -->
+            {% endif %}
+        </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Kigali Trends</h4>
+                    <p class="text-sm text-gray-500 capitalize">{{ request.user.username }}</p>
+                </div>
+            </div>
+        </div>
+        
+      {% if request.user.role == 'supervisor' %}
+        <nav class="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-240px)]">
+            <a href="#dashboard"  class="nav-item flex items-center space-x-3 p-3 rounded-xl bg-blue-50 text-blue-600 font-medium group transition-all duration-200 hover:bg-blue-100">
+                <i class="fas fa-tachometer-alt w-5"></i>
+                <span>Dashboard Overview</span>
+            </a>
+            
+            <a href="{% url 'story_list' %}"  class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-newspaper w-5"></i>
+                <span>Manage Posts</span>
+                <span class="ml-auto bg-blue-500 text-white text-xs px-2 py-1 rounded-full">{{post_count}}</span>
+            </a>
+            
+            <a href="#visitor-posts"  class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-user-edit w-5"></i>
+                <span>Visitor Posts</span>
+                <span class="ml-auto bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">{{visitor_post_count}}</span>
+            </a>
+            
+
+            
+            <a href="#contacts" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-envelope w-5"></i>
+                <span>Contact Messages</span>
+                <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">{{contact_count}}</span>
+            </a>
+            <a href="#comments" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-comments w-5"></i>
+                <span>Comments</span>
+                <span class="ml-auto bg-orange-500 text-white text-xs px-2 py-1 rounded-full">{{comment_count}}</span>
+            </a>
+            
+            <div class="pt-4 mt-4 border-t border-gray-200">
+                <a href="{% url 'logout' %}" class="flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 font-medium group transition-all duration-200">
+                    <i class="fas fa-sign-out-alt w-5"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+        {% endif %}
+    </div>
     
+    <!-- Main Content -->
+    <div class="lg:ml-72 min-h-screen">
+        <!-- Top Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
+            <div class="flex items-center justify-between p-4">
+                <div class="flex items-center space-x-4">
+                    <button id="sidebar-toggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div class="hidden sm:block">
+                        <h1 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
+                        <p class="text-sm text-gray-500">Monitor and manage your content effectively</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <div class="hidden md:flex items-center bg-gray-100 rounded-xl px-4 py-2 w-80">
+                        <i class="fas fa-search text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="Search posts, comments..." class="bg-transparent outline-none flex-1 text-gray-700">
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <button class="p-2 rounded-xl hover:bg-gray-100 transition-colors" title="Refresh Data">
+                        <i class="fas fa-sync-alt text-gray-600"></i>
+                    </button>
+                    
+                    <!-- Notifications -->
+                    <button class="relative p-2 rounded-xl hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-bell text-gray-600"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">12</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <main class="p-4 lg:p-8">
+            {% block content %}
+            <!-- main content-->
+
+            {% endblock%}
+         
+
+        </main>
+    </div>
 </body>
 </html>

@@ -2,11 +2,11 @@
 **/migrations/*
 !**/migrations/__init__.py
 
-# Ignore all Python cache
+
 **/__pycache__/
 *.py[cod]
 
-# Ignore VSCode and system files (optional but good practice)
+
 .vscode/
 *.log
 *.sqlite3

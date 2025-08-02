@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Dashboard - Content Creator Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#6366f1',
+                        'secondary': '#8b5cf6',
+                        'success': '#10b981',
+                        'warning': '#f59e0b',
+                        'danger': '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-inter overflow-x-hidden">
+    <!-- Mobile Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 border-r border-gray-200">
+        <!-- Logo Section -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-feather-alt text-white text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">WriterHub</h2>
+                    <p class="text-xs text-gray-500">Author Dashboard</p>
+                </div>
+            </div>
+            <button id="sidebar-close" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                <i class="fas fa-times text-gray-600"></i>
+            </button>
+        </div>
+        
+        <!-- Author Profile -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+                <div class="w-14 h-14 bg-gradient-to-br from-pink-400 to-orange-500 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold text-lg">SJ</span>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Sarah Johnson</h4>
+                    <p class="text-sm text-gray-500">Content Creator</p>
+                    <div class="flex items-center mt-1">
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star text-xs"></i>
+                            <i class="fas fa-star text-xs"></i>
+                            <i class="fas fa-star text-xs"></i>
+                            <i class="fas fa-star text-xs"></i>
+                            <i class="fas fa-star text-xs"></i>
+                        </div>
+                        <span class="text-xs text-gray-500 ml-2">4.9</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-260px)]">
+            <a href="#dashboard" onclick="showSection('dashboard')" class="nav-item flex items-center space-x-3 p-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium group transition-all duration-200 hover:bg-indigo-100">
+                <i class="fas fa-home w-5"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <a href="#my-posts" onclick="showSection('my-posts')" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-file-alt w-5"></i>
+                <span>My Posts</span>
+                <span class="ml-auto bg-indigo-500 text-white text-xs px-2 py-1 rounded-full">12</span>
+            </a>
+            
+            <a href="#create-post" onclick="showSection('create-post')" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-plus-circle w-5"></i>
+                <span>Create New Post</span>
+            </a>
+            
+            <a href="#drafts" onclick="showSection('drafts')" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-edit w-5"></i>
+                <span>Drafts</span>
+                <span class="ml-auto bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+            </a>
+            
+            <a href="#analytics" onclick="showSection('analytics')" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-chart-line w-5"></i>
+                <span>Analytics</span>
+            </a>
+            
+            <a href="#comments" onclick="showSection('comments')" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-comments w-5"></i>
+                <span>Comments</span>
+                <span class="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">8</span>
+            </a>
+            
+            <a href="#profile" onclick="showSection('profile')" class="nav-item flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium group transition-all duration-200">
+                <i class="fas fa-user-circle w-5"></i>
+                <span>Profile Settings</span>
+            </a>
+            
+            <div class="pt-4 mt-4 border-t border-gray-200">
+                <a href="#" class="flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 font-medium group transition-all duration-200">
+                    <i class="fas fa-sign-out-alt w-5"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="lg:ml-72 min-h-screen">
+        <!-- Top Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
+            <div class="flex items-center justify-between p-4">
+                <div class="flex items-center space-x-4">
+                    <button id="sidebar-toggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div class="hidden sm:block">
+                        <h1 id="page-title" class="text-2xl font-bold text-gray-800">Author Dashboard</h1>
+                        <p class="text-sm text-gray-500">Welcome back, Sarah! Ready to create amazing content?</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <div class="hidden md:flex items-center bg-gray-100 rounded-xl px-4 py-2 w-80">
+                        <i class="fas fa-search text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="Search your posts..." class="bg-transparent outline-none flex-1 text-gray-700">
+                    </div>
+                    
+                    <!-- Quick Create -->
+                    <button onclick="showSection('create-post')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition-colors hidden sm:flex items-center space-x-2">
+                        <i class="fas fa-plus"></i>
+                        <span>New Post</span>
+                    </button>
+                    
+                    <!-- Notifications -->
+                    <button class="relative p-2 rounded-xl hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-bell text-gray-600"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">3</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <main class="p-4 lg:p-8">
+            <!-- Dashboard Overview Section -->
+            <div id="dashboard" class="content-section">
+                <!-- Welcome Section -->
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-8 mb-8 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-2">Welcome back, Sarah! 👋</h2>
+                            <p class="text-indigo-100 mb-4">You've published 2 posts this week. Keep up the great work!</p>
+                            <button onclick="showSection('create-post')" class="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold hover:bg-indigo-50 transition-colors">
+                                <i class="fas fa-plus mr-2"></i>Create New Post
+                            </button>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-feather-alt text-4xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Posts</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-1">42</p>
+                                <p class="text-sm text-green-600 mt-2">
+                                    <i class="fas fa-arrow-up mr-1"></i>
+                                    +3 this month
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-file-alt text-indigo-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Published</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-1">38</p>
+                                <p class="text-sm text-blue-600 mt-2">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    90% publish rate
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Likes</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-1">1,247</p>
+                                <p class="text-sm text-pink-600 mt-2">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    +89 this week
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-heart text-pink-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Comments</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-1">156</p>
+                                <p class="text-sm text-orange-600 mt-2">
+                                    <i class="fas fa-comments mr-1"></i>
+                                    +12 today
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-comments text-orange-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Posts and Activity -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Recent Posts -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold text-gray-800">Recent Posts</h3>
+                            <button onclick="showSection('my-posts')" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                                View All <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex-shrink-0"></div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-1">The Future of AI in Healthcare</h4>
+                                    <p class="text-sm text-gray-500 mb-2">Published 2 days ago</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fas fa-heart text-red-500 mr-1"></i>89 likes</span>
+                                        <span><i class="fas fa-comments text-blue-500 mr-1"></i>12 comments</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl">
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg flex-shrink-0"></div>
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-1">Modern Web Development Trends</h4>
+                                    <p class="text-sm text-gray-500 mb-2">Published 5 days ago</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fas fa-heart text-red-500 mr-1"></i>156 likes</span>
+                                        <span><i class="fas fa-comments text-blue-500 mr-1"></i>24 comments</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Performance Chart -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Performance Overview</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-600">Post Engagement</span>
+                                    <span class="text-sm font-bold text-green-600">85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-600">Reader Retention</span>
+                                    <span class="text-sm font-bold text-blue-600">72%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 72%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-600">Social Shares</span>
+                                    <span class="text-sm font-bold text-purple-600">68%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 68%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-gray-200">
+                                <div class="grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <div class="text-2xl font-bold text-gray-800">4.8</div>
+                                        <div class="text-xs text-gray-500">Avg Rating</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-gray-800">3.2k</div>
+                                        <div class="text-xs text-gray-500">Total Views</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-gray-800">1.8k</div>
+                                        <div class="text-xs text-gray-500">Followers</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <button onclick="showSection('create-post')" class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all text-left group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
+                                <i class="fas fa-plus text-indigo-600"></i>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-400 group-hover:text-indigo-600 transition-colors"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Create New Post</h4>
+                        <p class="text-sm text-gray-500">Share your ideas with the world</p>
+                    </button>
+                    
+                    <button onclick="showSection('drafts')" class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all text-left group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
+                                <i class="fas fa-edit text-yellow-600"></i>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-400 group-hover:text-yellow-600 transition-colors"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Continue Drafts</h4>
+                        <p class="text-sm text-gray-500">3 drafts waiting for you</p>
+                    </button>
+                    
+                    <button onclick="showSection('analytics')" class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all text-left group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                                <i class="fas fa-chart-line text-green-600"></i>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-400 group-hover:text-green-600 transition-colors"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">View Analytics</h4>
+                        <p class="text-sm text-gray-500">Track your performance</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- My Posts Section -->
+            <div id="my-posts" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                        <h3 class="text-xl font-bold text-gray-800">My Posts</h3>
+                        <div class="flex space-x-3">
+                            <select class="bg-gray-100 rounded-lg px-3 py-2 text-sm outline-none">
+                                <option value="">All Posts</option>
+                                <option value="published">Published</option>
+                                <option value="draft">Drafts</option>
+                                <option value="pending">Pending Review</option>
+                            </select>
+                            <button onclick="showSection('create-post')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                                <i class="fas fa-plus mr-2"></i>New Post
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="divide-y divide-gray-100">
+                        <div class="p-6 hover:bg-gray-50">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex-shrink-0"></div>
+                                <div class="flex-1">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <h4 class="text-lg font-semibold text-gray-800 mb-2">The Future of AI in Healthcare</h4>
+                                            <p class="text-gray-600 mb-3">Exploring how artificial intelligence is revolutionizing medical diagnosis and treatment...</p>
+                                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                                <span><i class="fas fa-calendar mr-1"></i>Jan 15, 2025</span>
+                                                <span><i class="fas fa-tag mr-1"></i>Technology</span>
+                                                <span><i class="fas fa-heart text-red-500 mr-1"></i>89 likes</span>
+                                                <span><i class="fas fa-comments text-blue-500 mr-1"></i>12 comments</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">Published</span>
+                                            <div class="relative">
+                                                <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                                    <i class="fas fa-ellipsis-v text-gray-400"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 hover:bg-gray-50">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-blue-500 rounded-xl flex-shrink-0"></div>
+                                <div class="flex-1">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Modern Web Development Trends</h4>
+                                            <p class="text-gray-600 mb-3">A comprehensive guide to the latest trends and technologies shaping web development...</p>
+                                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                                <span><i class="fas fa-calendar mr-1"></i>Jan 10, 2025</span>
+                                                <span><i class="fas fa-tag mr-1"></i>Technology</span>
+                                                <span><i class="fas fa-heart text-red-500 mr-1"></i>156 likes</span>
+                                                <span><i class="fas fa-comments text-blue-500 mr-1"></i>24 comments</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">Published</span>
+                                            <div class="relative">
+                                                <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                                    <i class="fas fa-ellipsis-v text-gray-400"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Post Section -->
+            <div id="create-post" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6">Create New Post</h3>
+                    
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Post Title</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none" placeholder="Enter your post title...">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none">
+                                <option value="">Select a category</option>

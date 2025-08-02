@@ -16,7 +16,7 @@ def activate(modeladmin, request, queryset):
 
 @admin.register(CustomUser)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('first_name','last_name', 'email','role')
+    list_display = ('first_name','last_name', 'email','role','profile_picture')
     search_fields = ('role','email')
     list_filter = ('role',)
     ordering = ('role',)

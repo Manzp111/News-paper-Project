@@ -1,9 +1,17 @@
-{% extends 'supervisor/index.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
 
-{% block content%}
 
+</head>
+<body>
 
-    
 
 <form class="max-w-sm mx-auto" method="post">
     {% csrf_token %}
@@ -19,19 +27,6 @@
                 <p>{{ error }}</p>
             {% endfor %}
         {% endif %}
-
-    <!-- <label for="email" class="block mb-2 text-sm font-medium text-blue-500 dark:text-black">Author</label> -->
-
-
-    <!-- Author Dropdown -->
-    <!-- <label for="id_author">Author:</label>
-    <select name="author" id="id_author" required>
-        {% for authors in author %}
-            <option value="{{ user.id }}">{{ authors.name }}</option>
-        {% endfor %}
-    </select> -->
-
-    <!-- <input type="text" name="Author" class="shadow-xs bg-gray-50 border border-gray-300 text-black-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="Gilbert" required /> -->
 
   </div>
   <div class="mb-5">
@@ -54,7 +49,10 @@
   
   <div class="mb-5">
     <label for="content" class="block mb-2 text-sm font-medium text-gray-700">Content</label>
-    <textarea id="content" name="content" rows="10" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your story content here..."></textarea>
+    <textarea name="content" id="editor"></textarea>
+
+
+
   </div>
 <div class="flex justify-center items-center text-center w-full h-10 bg-blue-900 m-3 rounded" >
     <button class="" type="submit" class="w-full bg-blue-500 ">Add Story</button>
@@ -63,6 +61,13 @@
 
   
 </form>
+    <script>
+       
+        CKEDITOR.replace('editor');
+    </script>
 
 
-{% endblock %}
+
+  
+</body>
+</html>
